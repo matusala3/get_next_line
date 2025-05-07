@@ -1,21 +1,18 @@
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *s)
-{
-	size_t	len;
-
-	len = 0;
-	while (s[len] != '\0')
-		len++;
-	return (len);
-}
 char	*ft_strdup(const char *s1)
 {
 	char	*res;
 	size_t	i;
+	size_t len;
 
 	i = 0;
-	res = malloc(ft_strlen(s1) + 1);
+	len = 0;
+	if(!s1)
+		return (NULL);
+	while (s1[len] != '\0')
+		len++;
+	res = malloc(len + 1);
 	if (!res)
 		return (NULL);
 	while (s1[i])
@@ -52,6 +49,8 @@ char	*ft_strjoin_free(char *s1, char const *s2)
 
 	i = 0;
 	j = 0;
+	s1_len = 0;
+	s2_len = 0;
     if (!s1)
 	{
 		s1 = ft_strdup("");
@@ -64,8 +63,10 @@ char	*ft_strjoin_free(char *s1, char const *s2)
 		free(s1);
 	    return (NULL);
 	}
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
+	while (s1[s1_len] != '\0')
+		s1_len++;
+	while (s2[s2_len] != '\0')
+		s2_len++;
 	res = malloc(s1_len + s2_len + 1);
 	if (!res)
 	{
@@ -90,60 +91,64 @@ char	*ft_strjoin_free(char *s1, char const *s2)
 	return (res);
 }
 
-char *ft_save_remainder(char *s)
+void ft_save_leftovers(char *buffer, char *leftovers)
 {
-    char *remainder;
-    size_t i;
-    size_t j;
+	size_t	i = 0;
 
-    i = 0;
-    j = 0;
-    if (!s)
-		return (NULL);
-    while (s[i] && s[i] != '\n')
-        i++;
-    if(!s[i])
-    {
-		free(s);
-		return (NULL);
+	while (buffer[i] && buffer[i] != '\n')
+		i++;
+	if (buffer[i] == '\n')
+		i++;
+	while (buffer[i])
+	{
+		*leftovers = buffer[i++];
+		leftovers++;
 	}
-    i++;
-    remainder = malloc(sizeof(char) * (ft_strlen(s) - i + 1));
-    if (!remainder)
-    {
-		free(s);
-		return (NULL);
-	}
-    while (s[i])
-    {
-        remainder[j++] = s[i++];
-    }
-    remainder[j] = '\0';
-	free(s);
-    return remainder;
+	*leftovers = '\0';
 }
-size_t	ft_linelen(const char *s)
+
+char *ft_read_to_buffer(int fd, char *leftovers)
 {
-	size_t	len;
+	char *buffer;
+	int        num_bytes_read;
+	char temp_buff[BUFFER_SIZE + 1];
 
-    len = 0;
-    if (!s || !*s)
-		return (0);
-	while (s[len] && s[len] != '\n')
-		len++;
-	if (s[len] == '\n')
-		len++;
-	return (len);
+	num_bytes_read = 1;
+	if(leftovers)
+		buffer = ft_strdup(leftovers);
+	else
+		buffer = ft_strdup("");
+	if (!buffer)
+		return (NULL);
+	while (num_bytes_read > 0 && !ft_strchr(buffer, '\n'))
+	{
+		num_bytes_read = read(fd, temp_buff, BUFFER_SIZE);
+		if (num_bytes_read == -1)
+		{
+			free(buffer);
+			return (NULL);
+		}
+		temp_buff[num_bytes_read] = '\0';
+		buffer = ft_strjoin_free(buffer, temp_buff);
+		if (!buffer)
+			return (NULL);
+	}
+	return(buffer);
 }
+
 char *ft_extract_line(char *s)
 {
 	char	*line;
 	size_t	i;
 	size_t	len;
 
+	len = 0;
 	if (!s || !*s)
 		return (NULL);
-	len = ft_linelen(s);
+	while (s[len] && s[len] != '\n')
+		len++;
+	if (s[len] == '\n')
+		len++;
 	line = malloc(sizeof(char) * (len + 1));
 	if (!line)
 		return (NULL);

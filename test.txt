@@ -2,7 +2,8 @@ The quick brown fox jumps over the lazy dog. step To be or not to be, that is th
 All that glitters is not gold.
 The early bird catches the worm.
 Every cloud has a silver lining.
-Actions speak louder than words.
+Actions speak lou\0der than words.
 Better late than never.
 Curiosity killed the cat, but satisfaction brought it back.
 When life gives you lemons, make lemonade.
+cc -Wall -Wextra -Werror -D BUFFER_SIZE=5 main.c get_next_line.c get_next_line_utils.c
