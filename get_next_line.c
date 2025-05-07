@@ -113,16 +113,16 @@ char	*get_next_line(int fd)
 		return (NULL);
 	buffer = ft_read_to_buffer(fd, leftovers, temp_buff);
 	if (!buffer)
+	{
+		free(temp_buff);
 		return (NULL);
+	}
 	line = ft_extract_line(buffer);
 	ft_save_leftovers(buffer, leftovers);
 	free(temp_buff);
 	free (buffer);
-	if (line != NULL && *line == 0)
-	{
-		free(line);
-		line = NULL;
-		return (NULL);
-	}
-	return (line);
+	if (line == NULL || *line != 0)
+		return (line);
+	free(line);
+	return (NULL);
 }
