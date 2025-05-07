@@ -14,24 +14,25 @@ int main(void)
         return (1);
     }
 
-    // while ((line = get_next_line(fd)) != NULL)
-    // {
-    //     printf("%s", line);  
-    //     free(line);
-    // }
-    
-    //now call the get_next_line function only 3 times
-    for (int i = 0; i < 3; i++)
+    while ((line = get_next_line(fd)) != NULL)
     {
-        line = get_next_line(fd);
-        if (line == NULL)
-        {
-            printf("No more lines to read or error occurred.\n");
-            break;
-        }
-        printf("LINE: %s", line);  
+        printf("%s", line);  
         free(line);
     }
+    if (line == NULL)
+        printf("NULL");
+    //now call the get_next_line function only 3 times
+    // for (int i = 0; i < 3; i++)
+    // {
+    //     line = get_next_line(fd);
+    //     if (line == NULL)
+    //     {
+    //         printf("No more lines to read or error occurred.\n");
+    //         break;
+    //     }
+    //     printf("LINE: %s", line);  
+    //     free(line);
+    // }
 
     close(fd);
     return (0);
