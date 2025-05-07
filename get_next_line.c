@@ -29,12 +29,11 @@ void	ft_save_leftovers(char *buffer, char *leftovers)
 	*leftovers = '\0';
 }
 
-char	*ft_read_to_buffer(int fd, char *leftovers)
+char	*ft_read_to_buffer(int fd, char *leftovers, char *temp_buff)
 {
 	char	*buffer;
 	int		num_bytes_read;
-	char	temp_buff[BUFFER_SIZE + 1];
-
+	
 	num_bytes_read = 1;
 	if (leftovers)
 		buffer = ft_strdup(leftovers);
@@ -105,16 +104,21 @@ char	*get_next_line(int fd)
 	static char	leftovers[BUFFER_SIZE + 1];
 	char		*buffer;
 	char		*line;
+    char	*temp_buff;
 
 	if (fd < 0 || fd > 1024)
 		return (NULL);
-	buffer = ft_read_to_buffer(fd, leftovers);
+ 	temp_buff = malloc(BUFFER_SIZE + 1);
+	if(!temp_buff)  
+		return (NULL);
+	buffer = ft_read_to_buffer(fd, leftovers, temp_buff);
 	if (!buffer)
 		return (NULL);
 	line = ft_extract_line(buffer);
 	ft_save_leftovers(buffer, leftovers);
+	free(temp_buff);
 	free (buffer);
-	if (!line || *line == '\0')
+	if (line != NULL && *line == 0)
 	{
 		free(line);
 		line = NULL;
