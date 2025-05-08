@@ -6,7 +6,7 @@
 /*   By: magebreh <magebreh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:53:04 by magebreh          #+#    #+#             */
-/*   Updated: 2025/05/07 16:11:12 by magebreh         ###   ########.fr       */
+/*   Updated: 2025/05/08 11:11:09 by magebreh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*ft_read_to_buffer(int fd, char *leftovers, char *temp_buff)
 {
 	char	*buffer;
 	int		num_bytes_read;
-	
+
 	num_bytes_read = 1;
 	if (leftovers)
 		buffer = ft_strdup(leftovers);
@@ -104,12 +104,12 @@ char	*get_next_line(int fd)
 	static char	leftovers[BUFFER_SIZE + 1];
 	char		*buffer;
 	char		*line;
-    char	*temp_buff;
+	char		*temp_buff;
 
 	if (fd < 0 || fd > 1024)
 		return (NULL);
- 	temp_buff = malloc(BUFFER_SIZE + 1);
-	if(!temp_buff)  
+	temp_buff = malloc(BUFFER_SIZE + 1);
+	if (!temp_buff)
 		return (NULL);
 	buffer = ft_read_to_buffer(fd, leftovers, temp_buff);
 	if (!buffer)
