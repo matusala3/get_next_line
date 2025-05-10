@@ -12,6 +12,14 @@
 
 #include "get_next_line.h"
 
+/**
+ * @brief Duplicates a string by allocating new memory.
+ *
+ * @param s1 Input string to duplicate.
+ * 
+ * @return Pointer to the newly allocated duplicate string,
+ *         or NULL if input is NULL or allocation fails.
+ */
 char	*ft_strdup(const char *s1)
 {
 	char	*res;
@@ -36,6 +44,16 @@ char	*ft_strdup(const char *s1)
 	return (res);
 }
 
+/**
+ * @brief Finds the first occurrence of a character in a string.
+ *
+ * @param s Input string to search in.
+ * @param c Character to find, passed as int but treated as char.
+ * 
+ * @return Pointer to the first occurrence of c in s,
+ *         or pointer to null terminator if c is '\0',
+ *         or NULL if not found or input is NULL.
+ */
 char	*ft_strchr(const char *s, int c)
 {
 	if (!s)
@@ -50,7 +68,15 @@ char	*ft_strchr(const char *s, int c)
 		return ((char *)s);
 	return (NULL);
 }
-
+/**
+ * @brief Calculates the length of a string.
+ *
+ * This function counts the number of characters in the given string
+ * until it reaches the null terminator '\0'.
+ *
+ * @param s The input string to measure.
+ * @return The number of characters in the string.
+ */
 size_t	ft_strlen(const char *s)
 {
 	size_t	len;
@@ -60,7 +86,17 @@ size_t	ft_strlen(const char *s)
 		len++;
 	return (len);
 }
-
+/**
+ * @brief Copies n bytes from memory area src to memory area dest.
+ *
+ * This function copies n bytes from the memory area pointed to by src
+ * to the memory area pointed to by dest. The memory areas must not overlap.
+ *
+ * @param dest Pointer to the destination memory area.
+ * @param src Pointer to the source memory area.
+ * @param n Number of bytes to copy.
+ * @return Pointer to the destination memory area dest.
+ */
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
 	size_t				i;
@@ -78,6 +114,13 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	return (dest);
 }
 
+/**
+ * @brief Extracts a string until and including '\n' if present.
+ * 
+ * @param s Input string to extract the line from.
+ * @return Newly allocated string with the extracted line.
+ *         NULL if input is NULL, empty, or allocation fails.
+ */
 char	*ft_extract_line(char *s)
 {
 	char	*line;

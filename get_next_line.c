@@ -12,6 +12,14 @@
 
 #include "get_next_line.h"
 
+/**
+ * @brief Copies the content after the first '\n' from buffer to leftovers.
+ *
+ * @param buffer Source string containing data to process.
+ * @param leftovers Destination buffer to store characters after '\n'.
+ * 
+ * @return Nothing.
+ */
 void	ft_save_leftovers(char *buffer, char *leftovers)
 {
 	size_t	i;
@@ -29,6 +37,16 @@ void	ft_save_leftovers(char *buffer, char *leftovers)
 	*leftovers = '\0';
 }
 
+/**
+ * @brief Reads from a file descriptor into a dynamically allocated buffer until '\n' or EOF.
+ *
+ * @param fd File descriptor to read from.
+ * @param leftovers Remaining data from previous read to prepend.
+ * @param temp_buff Temporary buffer used for reading chunks.
+ * 
+ * @return Pointer to the newly allocated buffer with the read data,
+ *         or NULL on read error or allocation failure.
+ */
 char	*ft_read_to_buffer(int fd, char *leftovers, char *temp_buff)
 {
 	char	*buffer;
@@ -57,6 +75,15 @@ char	*ft_read_to_buffer(int fd, char *leftovers, char *temp_buff)
 	return (buffer);
 }
 
+/**
+ * @brief Concatenates two strings into a newly allocated string.
+ *
+ * @param s1 First input string, which will be freed on allocation failure.
+ * @param s2 Second input string to append to s1.
+ * 
+ * @return Pointer to the newly allocated concatenated string,
+ *         or NULL if allocation fails (frees s1 in that case).
+ */
 char	*ft_strjoin_core(char *s1, char const *s2)
 {
 	char	*res;
@@ -79,6 +106,15 @@ char	*ft_strjoin_core(char *s1, char const *s2)
 	return (res);
 }
 
+/**
+ * @brief Concatenates two strings and frees the first string.
+ *
+ * @param s1 First input string to free after joining. If NULL, treated as an empty string.
+ * @param s2 Second input string to append to s1.
+ * 
+ * @return Pointer to the newly allocated concatenated string,
+ *         or NULL if allocation fails or s2 is NULL.
+ */
 char	*ft_strjoin_free(char *s1, char const *s2)
 {
 	char	*res;
@@ -99,6 +135,14 @@ char	*ft_strjoin_free(char *s1, char const *s2)
 	return (res);
 }
 
+/**
+ * @brief Reads the next line from a file descriptor, including the newline if present.
+ *
+ * @param fd File descriptor to read from.
+ * 
+ * @return Pointer to the newly allocated line,
+ *         or NULL on error, EOF, or empty result.
+ */
 char	*get_next_line(int fd)
 {
 	static char	leftovers[BUFFER_SIZE + 1];
